@@ -2,14 +2,14 @@ services:
     mysql:
       image: mysql:8.4
       environment:
-        MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
-        #Ниже - так подсказывает делать ИИ, но как будто слишком автоматизировано
+        MYSQL_ROOT_PASSWORD: ${JRU_FP4_MYSQL_PASSWORD}
+        #Ниже - так подсказывает делать ИИ, но как будто это слишком просто и слишком автоматизировано
         #volumes:
           #- ./mysql/dump-hibernate-final.sql:/docker-entrypoint-initdb.d/dump-hibernate-final.sql
       ports:
         - "3307:3306"
       healthcheck:
-        test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_PASSWORD}" ]
+        test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-p${JRU_FP4_MYSQL_PASSWORD}" ]
         interval: 5s
         timeout: 5s
         retries: 10
@@ -27,7 +27,7 @@ services:
 
       command: >
         sh -c
-        "mysql -h mysql -uroot -p${MYSQL_PASSWORD} < /init1.sql"
+        "mysql -h mysql -uroot -p${JRU_FP4_MYSQL_PASSWORD} < /init1.sql"
 
     redis:
       image: redis:8
@@ -40,6 +40,6 @@ services:
         mysql-init:
           condition: service_completed_successfully
       environment:
-        MYSQL_USER: ${MYSQL_USER}
-        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-        MYSQL_URL: ${MYSQL_URL}
+        MYSQL_USER: ${JRU_FP4_MYSQL_USER}
+        MYSQL_PASSWORD: ${JRU_FP4_MYSQL_PASSWORD}
+        MYSQL_URL: ${JRU_FP4_MYSQL_URL}
